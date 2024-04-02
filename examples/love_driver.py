@@ -20,13 +20,13 @@ def main():
 
     for f in frequencies:
         k=0
-        plt.figure()
-
         zeta_a=[]
         zeta_arr_new = []
         cl=[]
         wavelength=[]
         zeta_a_new = (2*k+1) / (4*f)
+
+        plt.figure()
 
         def g(x):
             return (p2/p1)*np.sqrt(zeta_max**2-x**2)/x - np.tan(2*np.pi*f*x)
@@ -41,7 +41,6 @@ def main():
             zeta_a.append(zeta_max)
 
         i=0
-
         for zeta in zeta_a:
             zeta_0 = zeta - 1e-5
             x, _, eps_a = root_newton_raphson(zeta_0, g, dgdx)
@@ -52,9 +51,28 @@ def main():
         zeta_arr.append(zeta_arr_new)
         cl_arr.append(cl)
         wavelength_arr.append(wavelength)
+
+        modes_wave=[[], [], []]
+        for wavelength in wavelength_arr:
+            length=len(wavelength)
+            if length > 3:
+                length = 3
+            for i in range(length):
+                modes_wave[i].append(wavelength[i])
+
+        modes_cl=[[], [], []]
+        for cl in cl_arr:
+            length=len(cl)
+            if length > 3:
+                length = 3
+            for i in range(length):
+                modes_cl[i].append(cl[i])
+
+    plt.plot()
+    plt.savefig(f"cl vs frequency {f}.png")
         
-        plt.plot(zeta_arr, [-10,10])
-        plt.savefig(f"frequency {f}")
+    plt.plot()
+    plt.savefig(f"wavelength vs frequency {f}.png")
 
 if __name__=="__main__":
     main()
