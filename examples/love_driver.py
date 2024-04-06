@@ -52,7 +52,8 @@ def main():
 
         modes_wave=[[], [], []]
         modes_cl=[[], [], []]
-        modes_f=[[0.01, 0.1, 0.5, 1, 5, 10], [0.5, 1, 5, 10], [1, 5, 10]]
+        # modes_f=[[0.01, 0.1, 0.5, 1, 5, 10], [0.5, 1, 5, 10], [1, 5, 10]]
+        modes_f=[[],[],[]]
 
         for wavelength, cl in zip(wavelength_arr, cl_arr):
             length = len(wavelength)
@@ -61,7 +62,11 @@ def main():
             for i in range (length):
                 modes_cl[i].append(cl[i])
                 modes_wave[i].append(wavelength[i])
-            #modes_f[i].append(frequencies[0:len(modes_cl[i])])
+
+        for i in range (len(modes_f)):
+            mode_length = -len(modes_cl[i])
+            for freq in frequencies[mode_length:]:
+                modes_f[i].append(freq)
 
 
     print (modes_f)
