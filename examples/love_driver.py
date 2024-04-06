@@ -8,25 +8,22 @@ def main():
     B1=1900
     B2=3200
     H=4000
-
-    cl=[]
-    wavelength=[]
     frequencies=[0.01, 0.1, 0.5, 1, 5, 10]
+
     zeta_arr=[]
     cl_arr=[]
     wavelength_arr=[]
 
     zeta_max=np.sqrt(H**2 * (B1**-2 - B2**-2)) #1.6939991038925966
 
-    for f in frequencies:
+    for _, f in enumerate(frequencies):
         k=0
         zeta_a=[]
         zeta_arr_new = []
         cl=[]
         wavelength=[]
+        freq=[]
         zeta_a_new = (2*k+1) / (4*f)
-
-        plt.figure()
 
         def g(x):
             return (p2/p1)*np.sqrt(zeta_max**2-x**2)/x - np.tan(2*np.pi*f*x)
@@ -47,39 +44,41 @@ def main():
             zeta_arr_new.append(x)
             cl.append(1/np.sqrt(B1**-2-(x/H)**2))
             wavelength.append(cl[i]/f)
+            freq.append(f)
             i+=1
         zeta_arr.append(zeta_arr_new)
         cl_arr.append(cl)
         wavelength_arr.append(wavelength)
 
         modes_wave=[[], [], []]
-        for wavelength in wavelength_arr:
-            length=len(wavelength)
-            if length > 3:
-                length = 3
-            for i in range(length):
-                modes_wave[i].append(wavelength[i])
-
         modes_cl=[[], [], []]
-        for cl in cl_arr:
-            length=len(cl)
+        modes_f=[[0.01, 0.1, 0.5, 1, 5, 10], [0.5, 1, 5, 10], [1, 5, 10]]
+
+        for wavelength, cl in zip(wavelength_arr, cl_arr):
+            length = len(wavelength)
             if length > 3:
                 length = 3
-            for i in range(length):
+            for i in range (length):
                 modes_cl[i].append(cl[i])
+                modes_wave[i].append(wavelength[i])
+            #modes_f[i].append(frequencies[0:len(modes_cl[i])])
 
-        def tan(zeta, f):
-            return np.tan(2*np.pi*f*zeta)
 
-        for i, zeta in enumerate (zeta_arr):
-            x = np.linspace(1e-4, zeta_max, 10)
-            y = tan(x, f)
-            #print (y)
-            for z in zeta:
-                plt.plot(z, tan(z, f), "or") #plots point of root
-                plt.plot(x, y, "-b") #plots graph of tan function
-                plt.ylim((-10, 10))
-                plt.savefig(f"../figures/modes for frequency {f}.png")
+    print (modes_f)
+    print (modes_cl)
+    
+    plt.figure(figsize=(6, 8))
+    plt.subplot(2,1,1)
+    i=0
+    for f, cl in zip(modes_f, modes_cl):
+        plt.plot(f, cl, label=f"mode{i}")
+        i+=1
+    plt.legend()
+    plt.show()
+
+        # [318295.21016678866, 24475.09467231762, 3885.5024319501936, 1911.8532871832329, 380.1043720104591, 190.01321843116986] mode 1
+        # [4785.2146692058, 2014.539941748062, 380.94239950965346, 190.11906439171085] mode 2
+        # [2273.246422732329, 382.6349111094802, 190.33128320885126] wave modes
 
 if __name__=="__main__":
     main()
