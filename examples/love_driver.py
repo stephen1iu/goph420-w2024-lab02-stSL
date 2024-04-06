@@ -68,11 +68,18 @@ def main():
             for i in range(length):
                 modes_cl[i].append(cl[i])
 
-    plt.plot()
-    plt.savefig(f"cl vs frequency {f}.png")
-        
-    plt.plot()
-    plt.savefig(f"wavelength vs frequency {f}.png")
+        def tan(zeta, f):
+            return np.tan(2*np.pi*f*zeta)
+
+        for i, zeta in enumerate (zeta_arr):
+            x = np.linspace(1e-4, zeta_max, 10)
+            y = tan(x, f)
+            #print (y)
+            for z in zeta:
+                plt.plot(z, tan(z, f), "or") #plots point of root
+                plt.plot(x, y, "-b") #plots graph of tan function
+                plt.ylim((-10, 10))
+                plt.savefig(f"../figures/modes for frequency {f}.png")
 
 if __name__=="__main__":
     main()
