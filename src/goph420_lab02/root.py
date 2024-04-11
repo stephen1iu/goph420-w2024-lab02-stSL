@@ -4,9 +4,9 @@ def root_newton_raphson(x0, f, dfdx):
     """
     Inputs
     ------
-    x0: initial guess
-    f: function
-    dfdx: first order derivative of f
+    x0: initial guess (float)
+    f: function (callable)
+    dfdx: first order derivative of f (callable)
 
     Returns
     -------
@@ -21,7 +21,7 @@ def root_newton_raphson(x0, f, dfdx):
     tol=1e-8
 
     while np.abs(eps_a[i])>tol:
-        x_old=x
+        x_old=x #change of variable name and storing old guess for eps_a calc
         x=(x - (f(x) / dfdx(x)))
         eps_a.append((x - x_old) / (x))
         i+=1
