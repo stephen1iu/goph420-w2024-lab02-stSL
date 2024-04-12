@@ -33,7 +33,7 @@ def main():
         while zeta_a_new < zeta_max:
             zeta_a.append(zeta_a_new)
             k+=1
-            zeta_a_new = (2*k+1) / (4*f)
+            zeta_a_new = (2*k+1) / (4*f) #finding asymptotes
         if g(zeta_max) < 0:
             zeta_a.append(zeta_max)
 
@@ -52,7 +52,6 @@ def main():
 
         modes_wave=[[], [], []]
         modes_cl=[[], [], []]
-        # modes_f=[[0.01, 0.1, 0.5, 1, 5, 10], [0.5, 1, 5, 10], [1, 5, 10]]
         modes_f=[[],[],[]]
 
         for wavelength, cl in zip(wavelength_arr, cl_arr):
@@ -67,23 +66,22 @@ def main():
             mode_length = -len(modes_cl[i])
             for freq in frequencies[mode_length:]:
                 modes_f[i].append(freq)
-
-
-    print (modes_f)
-    print (modes_cl)
     
     plt.figure(figsize=(6, 8))
-    plt.subplot(2,1,1)
     i=0
     for f, cl in zip(modes_f, modes_cl):
         plt.plot(f, cl, label=f"mode{i}")
         i+=1
     plt.legend()
-    plt.show()
+    plt.savefig("../figures/cl_modes.png")
+    plt.close("all")
 
-        # [318295.21016678866, 24475.09467231762, 3885.5024319501936, 1911.8532871832329, 380.1043720104591, 190.01321843116986] mode 1
-        # [4785.2146692058, 2014.539941748062, 380.94239950965346, 190.11906439171085] mode 2
-        # [2273.246422732329, 382.6349111094802, 190.33128320885126] wave modes
+    i=0
+    for f, wave in zip(modes_f, modes_wave):
+        plt.plot(f, wave, label=f"mode{i}")
+        i+=1
+    plt.legend()
+    plt.savefig("../figures/wave_modes.png")
 
 if __name__=="__main__":
     main()
