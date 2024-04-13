@@ -72,7 +72,11 @@ def main():
     for f, cl in zip(modes_f, modes_cl):
         plt.plot(f, cl, label=f"mode{i}")
         i+=1
+
+    plt.title("Modes of Frequency (Hz) vs. Love Wave Velocity (m/s)")
     plt.legend()
+    plt.xlabel("Frequency (Hz)")
+    plt.ylabel("Love Wave Velocity (m/s)")
     plt.savefig("../figures/cl_modes.png")
     plt.close("all")
 
@@ -80,7 +84,11 @@ def main():
     for f, wave in zip(modes_f, modes_wave):
         plt.plot(f, wave, label=f"mode{i}")
         i+=1
+
+    plt.title("Modes of Frequency (Hz) vs. Wavelength (m)")
     plt.legend()
+    plt.xlabel("Frequency (Hz)")
+    plt.ylabel("Wavelength (m)")
     plt.savefig("../figures/wave_modes.png")
 
 if __name__=="__main__":
